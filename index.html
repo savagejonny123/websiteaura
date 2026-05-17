@@ -3,171 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jonny | Lead Luau Engineer</title>
+    <title>Jonny | Game Acquisitions & Optimization Studio</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #030508;
-            --card: rgba(10, 14, 22, 0.4);
-            --card-hover: rgba(16, 24, 39, 0.6);
+            --bg: #020406;
+            --card: rgba(10, 15, 26, 0.4);
+            --card-hover: rgba(16, 26, 43, 0.6);
             --primary: #00a2ff;
             --accent: #00ffa3;
+            --warning: #ffaa00;
             --text: #ffffff;
             --text-dim: #8b949e;
             --border: rgba(255, 255, 255, 0.05);
             --border-hover: rgba(0, 162, 255, 0.3);
         }
 
-        /* Smooth Hide native cursor but keep functionality intact */
-        html, body {
-            background-color: var(--bg);
-            cursor: none;
-        }
-        a, button, .spec-card {
-            cursor: none;
-        }
-
+        html, body { background-color: var(--bg); cursor: none; }
+        a, button, .studio-card { cursor: none; }
         * { box-sizing: border-box; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-image: 
-                radial-gradient(circle at 10% 12%, rgba(0, 162, 255, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 90% 85%, rgba(0, 255, 163, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 50% 50%, rgba(3, 5, 8, 1) 0%, rgba(1, 2, 3, 1) 100%);
-            color: var(--text);
-            margin: 0;
-            line-height: 1.6;
-            overflow-x: hidden;
+                radial-gradient(circle at 10% 12%, rgba(0, 162, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 85%, rgba(0, 255, 163, 0.06) 0%, transparent 45%);
+            color: var(--text); margin: 0; line-height: 1.6; overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Advanced Custom Cursor */
+        /* Inertial Custom Cursor */
         #cursor-dot {
-            width: 6px; height: 6px;
-            background: #fff;
-            border-radius: 50%;
-            position: fixed; pointer-events: none; z-index: 10000;
-            transform: translate(-50%, -50%);
+            width: 6px; height: 6px; background: #fff; border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%);
             transition: width 0.2s, height 0.2s, background-color 0.2s;
         }
         #cursor-ring {
-            width: 30px; height: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            position: fixed; pointer-events: none; z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: transform 0.08s ease-out, border-color 0.3s, width 0.3s, height 0.3s, background-color 0.3s;
+            width: 30px; height: 30px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
+            transition: transform 0.08s ease-out, border-color 0.3s, width 0.3s, height 0.3s;
         }
-        
-        /* Cursor Hover States triggered via JS */
         .cursor-hover #cursor-dot { background: var(--primary); width: 8px; height: 8px; }
-        .cursor-hover #cursor-ring { 
-            width: 45px; height: 45px; 
-            border-color: var(--primary); 
-            background: rgba(0, 162, 255, 0.05);
-        }
+        .cursor-hover #cursor-ring { width: 45px; height: 45px; border-color: var(--primary); background: rgba(0, 162, 255, 0.03); }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
 
         /* Navigation */
         nav { padding: 3rem 0; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 800; font-size: 0.85rem; letter-spacing: 5px; color: var(--text); opacity: 0.9; position: relative; }
-        .logo::after {
-            content: ''; position: absolute; bottom: -6px; left: 0; width: 15px; height: 2px; background: var(--primary);
-        }
+        .logo { font-weight: 800; font-size: 0.9rem; letter-spacing: 5px; opacity: 0.9; }
+        .logo span { color: var(--primary); }
         .badge-status { 
-            background: rgba(0, 255, 163, 0.06); 
-            border: 1px solid rgba(0, 255, 163, 0.2);
-            color: var(--accent); padding: 8px 16px; border-radius: 100px; 
+            background: rgba(0, 162, 255, 0.06); border: 1px solid rgba(0, 162, 255, 0.2);
+            color: var(--primary); padding: 8px 16px; border-radius: 100px; 
             font-weight: 700; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(0, 255, 163, 0.05);
             display: flex; align-items: center; gap: 8px;
         }
-        .badge-status span {
-            width: 6px; height: 6px; background: var(--accent); border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
+        .badge-status span { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
         @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(0, 255, 163, 0.7); }
-            70% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 6px rgba(0, 255, 163, 0); }
-            100% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(0, 255, 163, 0); }
+            0% { transform: scale(0.9); opacity: 0.5; }
+            70% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.5; }
         }
 
         /* Hero */
-        .hero { padding: 8rem 0 5rem 0; }
-        .hero h1 { font-size: 5.5rem; margin: 0; letter-spacing: -4px; font-weight: 800; line-height: 0.85; }
-        .hero p { font-size: 1.25rem; color: var(--text-dim); margin-top: 2rem; max-width: 650px; font-weight: 400; }
+        .hero { padding: 6rem 0 4rem 0; }
+        .hero h1 { font-size: 4.8rem; margin: 0; letter-spacing: -3px; font-weight: 800; line-height: 0.9; }
+        .hero p { font-size: 1.3rem; color: var(--text-dim); margin-top: 2rem; max-width: 700px; font-weight: 400; }
 
-        /* Reveal Animation Styles */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(25px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Specializations */
-        .spec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 4rem; }
-        .spec-card { 
-            background: var(--card); border: 1px solid var(--border); 
-            padding: 2rem; border-radius: 20px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-        }
-        .spec-card:hover { 
-            border-color: var(--border-hover); 
-            background: var(--card-hover);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 162, 255, 0.03);
-        }
-        .spec-card h3 { color: var(--primary); font-size: 0.85rem; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
-        .spec-card p { font-size: 0.85rem; color: var(--text-dim); margin: 0; line-height: 1.5; }
+        /* Section Global Layout */
+        .section-tag { font-size: 0.7rem; font-weight: 800; opacity: 0.4; letter-spacing: 5px; margin: 6rem 0 2.5rem 0; display: flex; align-items: center; gap: 10px;}
+        .section-tag::after { content: ''; height: 1px; flex-grow: 1; background: linear-gradient(90deg, var(--border) 0%, transparent 100%); }
 
-        /* Stats */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 6rem 0; }
-        .stat-card { 
-            background: rgba(13, 17, 23, 0.25); border: 1px solid var(--border); 
-            padding: 3rem 2.5rem; border-radius: 28px; backdrop-filter: blur(20px);
-            position: relative; overflow: hidden;
+        /* Core Pillars Grid */
+        .studio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .studio-card { 
+            background: var(--card); border: 1px solid var(--border); padding: 2.5rem 2rem; border-radius: 24px; 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); backdrop-filter: blur(12px);
         }
-        .stat-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.01) 0%, transparent 100%);
+        .studio-card:hover { 
+            border-color: var(--border-hover); background: var(--card-hover); transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .studio-card .icon-label { font-size: 0.65rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; display: block;}
+        .studio-card.acq .icon-label { color: var(--accent); }
+        .studio-card.eval .icon-label { color: var(--warning); }
+        .studio-card.opt .icon-label { color: var(--primary); }
+        .studio-card h3 { font-size: 1.4rem; margin: 0 0 15px 0; font-weight: 700; letter-spacing: -0.5px; }
+        .studio-card p { font-size: 0.85rem; color: var(--text-dim); margin: 0; line-height: 1.6; }
+        .studio-card ul { margin: 15px 0 0 0; padding-left: 18px; font-size: 0.8rem; color: var(--text-dim); }
+        .studio-card ul li { margin-bottom: 6px; }
+
+        /* Performance Metrics Panel */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .stat-card { 
+            background: rgba(13, 17, 23, 0.2); border: 1px solid var(--border); padding: 3rem; border-radius: 28px; 
+            backdrop-filter: blur(20px); position: relative;
         }
         .stat-val { font-size: 4.5rem; font-weight: 800; display: block; line-height: 1; margin-bottom: 8px; letter-spacing: -2px; }
         .stat-lab { font-size: 0.75rem; color: var(--text-dim); letter-spacing: 3px; text-transform: uppercase; font-weight: 700; opacity: 0.7; }
 
-        /* Projects Section Header */
-        .section-tag { font-size: 0.7rem; font-weight: 800; opacity: 0.5; letter-spacing: 5px; margin-bottom: 2.5rem; display: flex; align-items: center; gap: 10px;}
-        .section-tag::after { content: ''; height: 1px; flex-grow: 1; background: linear-gradient(90deg, var(--border) 0%, transparent 100%); }
-
-        /* Projects */
+        /* Portfolio / Deployments */
         .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .game-card { 
-            background: var(--card); border: 1px solid var(--border); 
-            border-radius: 28px; overflow: hidden; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
-            text-decoration: none; color: inherit; display: flex; flex-direction: column;
-            backdrop-filter: blur(10px);
+            background: var(--card); border: 1px solid var(--border); border-radius: 28px; 
+            overflow: hidden; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
+            text-decoration: none; color: inherit; display: flex; flex-direction: column; backdrop-filter: blur(10px);
         }
         .game-card:hover { 
-            transform: translateY(-8px); 
-            border-color: var(--border-hover);
-            background: var(--card-hover);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0, 162, 255, 0.03);
+            transform: translateY(-8px); border-color: var(--border-hover); background: var(--card-hover);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
-        .game-img-wrapper { width: 100%; aspect-ratio: 16/9; overflow: hidden; border-bottom: 1px solid var(--border); position: relative;}
-        .game-img { 
-            width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .game-card:hover .game-img { transform: scale(1.04); }
-        
+        .game-img-wrapper { width: 100%; aspect-ratio: 16/9; overflow: hidden; border-bottom: 1px solid var(--border); }
+        .game-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .game-card:hover .game-img { transform: scale(1.03); }
         .game-info { padding: 2rem; display: flex; flex-direction: column; flex-grow: 1; }
-        .game-name { font-weight: 800; font-size: 1.4rem; margin-bottom: 10px; display: block; letter-spacing: -0.5px; }
+        .game-name { font-weight: 800; font-size: 1.4rem; margin-bottom: 4px; display: block; }
+        .studio-tag { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--primary); font-weight: 700; margin-bottom: 15px; }
         .game-desc { font-size: 0.85rem; color: var(--text-dim); margin: 0 0 20px 0; min-height: 2.5em; line-height: 1.5; }
-        .game-stats { font-size: 0.7rem; color: var(--text-dim); display: flex; gap: 20px; font-weight: 800; letter-spacing: 1.5px; margin-top: auto; }
+        .game-stats { font-size: 0.7rem; color: var(--text-dim); display: flex; gap: 20px; font-weight: 800; letter-spacing: 1.5px; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 15px; }
 
-        /* Contact */
+        /* Capital / Contact Form Card */
         .connect-card {
-            margin: 10rem 0; background: radial-gradient(circle at top left, rgba(0, 162, 255, 0.08), transparent 70%), rgba(10, 14, 22, 0.3);
-            border: 1px solid rgba(0, 162, 255, 0.2); border-radius: 40px; padding: 6rem 2rem;
-            text-align: center; backdrop-filter: blur(20px); position: relative;
+            margin: 8rem 0; background: radial-gradient(circle at top left, rgba(0, 162, 255, 0.05), transparent 70%), rgba(10, 14, 22, 0.2);
+            border: 1px solid rgba(0, 162, 255, 0.15); border-radius: 40px; padding: 6rem 2rem; text-align: center; backdrop-filter: blur(20px);
         }
         .connect-card h2 { font-size: 3.5rem; margin: 0; letter-spacing: -2px; font-weight: 800; }
         .connect-btn {
@@ -175,16 +136,15 @@
             text-decoration: none; font-weight: 800; display: inline-block; margin-top: 35px;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); font-size: 0.9rem; letter-spacing: 0.5px;
         }
-        .connect-btn:hover { transform: scale(1.03); box-shadow: 0 0 40px rgba(255,255,255,0.25); background: #f0f0f0; }
+        .connect-btn:hover { transform: scale(1.03); box-shadow: 0 0 40px rgba(255,255,255,0.2); }
 
         footer { padding: 5rem 0; text-align: center; opacity: 0.25; font-size: 0.65rem; letter-spacing: 3px; font-weight: 600; }
 
         @media (max-width: 850px) { 
-            .stats-grid, .project-grid, .spec-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 3.5rem; }
-            .connect-card h2 { font-size: 2.5rem; }
-            #cursor-dot, #cursor-ring { display: none !important; } /* Hide heavy custom elements on mobile */
-            html, body, a, button, .spec-card { cursor: auto !important; }
+            .studio-grid, .stats-grid, .project-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 3.2rem; }
+            #cursor-dot, #cursor-ring { display: none !important; }
+            html, body, a, button, .studio-card { cursor: auto !important; }
         }
     </style>
 </head>
@@ -195,121 +155,127 @@
 
 <div class="container">
     <nav class="reveal">
-        <div class="logo">JONNY.ENGINEERING</div>
-        <div class="badge-status"><span></span>Available for Work</div>
+        <div class="logo">JONNY<span>.STUDIOS</span></div>
+        <div class="badge-status"><span></span>Capital Allocation Active</div>
     </nav>
 
     <section class="hero reveal">
-        <h1>Building for <span style="color: var(--primary); text-shadow: 0 0 50px rgba(0,162,255,0.15)">Millions.</span></h1>
-        <p>Luau Developer specializing in <strong>distributed systems</strong>, high-performance gameplay loops, and memory-optimized architectures.</p>
-        
-        <div class="spec-grid">
-            <div class="spec-card">
-                <h3>Systems</h3>
-                <p>Modular frameworks & highly extensible state synchronization (Knit Architecture).</p>
-            </div>
-            <div class="spec-card">
-                <h3>Backend</h3>
-                <p>Secure DataStack deployment using ProfileStore optimized with automated session-locking.</p>
-            </div>
-            <div class="spec-card">
-                <h3>Optimization</h3>
-                <p>Advanced Raycasting acceleration, Parallel Luau, and targeted Native Code Gen profiling.</p>
-            </div>
+        <h1>Acquiring, Optimizing, and Scaling <span style="color: var(--primary);">Roblox Assets.</span></h1>
+        <p>We transform high-potential interactive experiences through institutional-grade technical audits, performance infrastructure overhauls, and mathematical LiveOps optimization.</p>
+    </section>
+
+    <div class="section-tag reveal">OPERATIONAL PILLARS</div>
+    
+    <section class="studio-grid reveal">
+        <div class="studio-card acq">
+            <span class="icon-label">● Phase 01</span>
+            <h3>Full Asset Acquisitions</h3>
+            <p>We buy outright or assume lead operating stakes in scaling game architectures, handling clean developer IP lock-outs, codebase transitions, and legal entity transfers safely.</p>
+            <ul>
+                <li>Streamlined equity or cash payouts</li>
+                <li>Comprehensive codebase migration</li>
+                <li>Retaining core design identity</li>
+            </ul>
+        </div>
+        <div class="studio-card eval">
+            <span class="icon-label">● Phase 02</span>
+            <h3>Technical Evaluations</h3>
+            <p>Deploying meticulous risk-audits before deployment or allocation. We dissect games to detect vulnerabilities, memory leaks, and architectural bottlenecks.</p>
+            <ul>
+                <li>Datastore session-locking reviews</li>
+                <li>Exploit surface-area discovery</li>
+                <li>Memory footprint profiling</li>
+            </ul>
+        </div>
+        <div class="studio-card opt">
+            <span class="icon-label">● Phase 03</span>
+            <h3>Stat & LiveOps Tuning</h3>
+            <p>Engineered interventions designed to optimize core performance telemetry, directly scaling session duration, system frame rates, and player monetization health loops.</p>
+            <ul>
+                <li>Parallel Luau thread distribution</li>
+                <li>Network bandwidth throttling fixes</li>
+                <li>Data-driven retention updates</li>
+            </ul>
         </div>
     </section>
 
+    <div class="section-tag reveal">PORTFOLIO AGGREGATE PERFORMANCE</div>
+
     <div class="stats-grid reveal">
         <div class="stat-card">
-            <span class="stat-lab">Total Impressions</span>
+            <span class="stat-lab">Aggregated Portfolio Impressions</span>
             <span class="stat-val" id="total-visits" style="color: var(--accent);">0</span>
         </div>
         <div class="stat-card">
             <span class="stat-val" id="total-active" style="color: #fff;">0</span>
-            <span class="stat-lab">Global Concurrent</span>
+            <span class="stat-lab">Live Managed Concurrents</span>
         </div>
     </div>
 
-    <div class="section-tag reveal">SELECTED DEPLOYMENTS</div>
+    <div class="section-tag reveal">SELECTED VENTURES & ACQUISITIONS</div>
     
     <div class="project-grid reveal" id="portfolio-grid">
         </div>
 
     <section class="connect-card reveal">
-        <h2>Let's Build the Future.</h2>
-        <p style="color: var(--text-dim); margin-top: 15px; font-size: 1.1rem;">Available for lead engineering roles and technical consulting.</p>
-        <a href="#" class="connect-btn">DISCORD: jonny18279</a>
+        <h2>Have an Asset to Divest or Scale?</h2>
+        <p style="color: var(--text-dim); margin-top: 15px; font-size: 1.1rem;">We review games with 1M+ total plays for outright acquisition or engineering consulting partnerships.</p>
+        <a href="#" class="connect-btn">INITIATE ACQUISITION PROTOCOL</a>
     </section>
 
     <footer>
-        ENGINEERED BY JONNY // 2026 // ALL SYSTEMS OPERATIONAL
+        JONNY STUDIOS // OPERATIONS MANAGEMENT // 2026
     </footer>
 </div>
 
 <script>
-    // 1. Dual-Element Inertial Cursor tracking
+    // 1. Cursor handling
     const dot = document.getElementById('cursor-dot');
     const ring = document.getElementById('cursor-ring');
-    
-    let mouseX = 0, mouseY = 0;
-    let ringX = 0, ringY = 0;
+    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
 
     document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        
-        dot.style.left = mouseX + 'px';
-        dot.style.top = mouseY + 'px';
+        mouseX = e.clientX; mouseY = e.clientY;
+        dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px';
     });
 
-    // Smooth physics loop for the cursor ring
     function traceRing() {
-        // Linear interpolation formula: Current + (Target - Current) * EaseFactor
-        ringX += (mouseX - ringX) * 0.15;
-        ringY += (mouseY - ringY) * 0.15;
-        
-        ring.style.left = ringX + 'px';
-        ring.style.top = ringY + 'px';
-        
+        ringX += (mouseX - ringX) * 0.15; ringY += (mouseY - ringY) * 0.15;
+        ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px';
         requestAnimationFrame(traceRing);
     }
     traceRing();
 
-    // UI Click Interaction States
     function applyCursorListeners() {
-        const targets = document.querySelectorAll('a, button, .spec-card, .game-card');
-        targets.forEach(el => {
+        document.querySelectorAll('a, button, .studio-card, .game-card').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
         });
     }
 
-    // 2. Scroll Animation implementation via Native IntersectionObserver
-    const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+    // 2. Scroll Animation Observer
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                observer.unobserve(entry.target); // Trigger slide-in once
+                observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
-
+    }, { threshold: 0.05 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 
-    // 3. Game API Integrations & Content Build
-    // Dynamic text configurations mapped directly to game Universe IDs
+    // 4. Case Studies Configuration (Tailored as Acquisition/Optimization reports)
     const gameTechInfo = {
-        "10128791515": "Custom replication engine handles complex synchronization for thousands of client side objects.",
-        "9957546722": "Engineered a low-overhead custom ECS architecture built around Parallel Luau processing loops.",
-        "9247239462": "Constructed state machine framework with optimized memory footprints and strict cleanups.",
-        "9013154056": "Implemented custom analytics collection pipelines alongside anti-exploit network validation.",
-        "9850711185": "Optimized geometric query raycasts to reduce rendering overhead across low-spec hardware profiles.",
-        "8071474537": "Architected clean dependency injection pipelines based deeply on Knit patterns.",
-        "9721144449": "Designed responsive UI component hierarchies leveraging state-driven layout routines.",
-        "9618630164": "Deployed dynamic data-caching middleware that safely mitigated remote data-throttles.",
-        "7858404889": "Managed a complex server mesh topology designed for high-availability game instancing."
+        "10128791515": "Post-acquisition optimization overhauling framework network bandwidth, scaling structural retention targets by 14%.",
+        "9957546722": "Full asset buyout followed by a deep rewrite of legacy physics routines to support high-density parallel loops.",
+        "9247239462": "Technical evaluation phase isolated multi-server data memory spikes. Re-architected with seamless custom caches.",
+        "9013154056": "LiveOps scaling campaign focused on client rendering loops, accelerating frames per second on lower-spec target phones.",
+        "9850711185": "Acquired title. Cleaned old engineering debt, resolved persistent save issues, and stabilized active backend architecture.",
+        "8071474537": "Strategic advisory role evaluating baseline structural code structures ahead of major market scaling push.",
+        "9721144449": "Isolated severe memory leaks on server instances, dropping crash rates to improve automated organic sort algorithms.",
+        "9618630164": "Optimized monetization interface pathways and server telemetry tracking to streamline design iterations.",
+        "7858404889": "Comprehensive infrastructure modernization to replace unstable legacy tracking architectures."
     };
 
     const myGameIds = Object.keys(gameTechInfo);
@@ -341,39 +307,34 @@
         const grid = document.getElementById('portfolio-grid');
         grid.innerHTML = '';
 
-        let totalVisits = 0; 
-        let totalActive = 0;
+        let totalVisits = 0; let totalActive = 0;
 
         games.forEach(game => {
             if (!game) return;
-            totalVisits += game.visits;
-            totalActive += game.playing;
+            totalVisits += game.visits; totalActive += game.playing;
 
             const card = document.createElement('a');
             card.href = `https://www.roblox.com/games/${game.rootPlaceId}`;
-            card.target = "_blank";
-            card.className = 'game-card';
+            card.target = "_blank"; card.className = 'game-card';
             card.innerHTML = `
                 <div class="game-img-wrapper">
                     <img src="${game.icon}" class="game-img" alt="${game.name}">
                 </div>
                 <div class="game-info">
+                    <span class="studio-tag">Venture Operational Report</span>
                     <span class="game-name">${game.name}</span>
-                    <p class="game-desc">${gameTechInfo[game.id] || "Systems implementation engineering."}</p>
+                    <p class="game-desc">${gameTechInfo[game.id] || "Technical assessment deployment."}</p>
                     <div class="game-stats">
-                        <span>${(game.visits/1000000).toFixed(1)}M+ VISITS</span>
-                        <span style="color: var(--accent)">● ${game.playing.toLocaleString()} LIVE</span>
+                        <span>${(game.visits/1000000).toFixed(1)}M TOTAL TRAFFIC</span>
+                        <span style="color: var(--accent)">● ${game.playing.toLocaleString()} CONCURRENT</span>
                     </div>
                 </div>
             `;
             grid.appendChild(card);
         });
 
-        // Run counting animations
         animateValue(document.getElementById('total-visits'), 0, totalVisits, 2000, true);
         animateValue(document.getElementById('total-active'), 0, totalActive, 2000, false);
-        
-        // Wire up new hover bindings for dynamically loaded game items
         applyCursorListeners();
     }
 
